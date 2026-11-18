@@ -23,13 +23,23 @@ npm test                 # pruebas unitarias (Jest)
 
 ## Endpoints implementados
 
+Las rutas se cargan solas: cada archivo `nombre.routes.js` de `src/routes` queda disponible en `/api/nombre`.
+
 | Método | Ruta | Requisito | Acceso |
 |---|---|---|---|
 | GET | `/api/salud` | – | público |
 | POST | `/api/auth/login` | RF-01 | público |
-| GET | `/api/empleados?nombre=&tipo=&estado=&pagina=` | RF-04 | autenticado |
+| GET | `/api/catalogos` | Listas para formularios | autenticado |
+| GET | `/api/empleados?nombre=&tipo=&estado=&departamento=&especialidad=&pagina=` | RF-04 | autenticado |
+| GET | `/api/empleados/:id` | RF-04 | autenticado |
 | POST | `/api/empleados` | RF-03 | administrador, jefe de área |
+| PUT | `/api/empleados/:id` | RF-03 | administrador, jefe de área |
+| DELETE | `/api/empleados/:id` | RF-03 | administrador |
+| GET | `/api/asignaciones?id_turno=&id_empleado=&estado=&desde=&hasta=` | RF-09 | administrador, jefe de área |
+| GET | `/api/asignaciones/mias` | Consulta de horario | autenticado |
 | POST | `/api/asignaciones` | RF-06, RF-07 | administrador, jefe de área |
+| PATCH | `/api/asignaciones/:id/confirmar` | RF-06 | administrador, jefe de área |
+| PATCH | `/api/asignaciones/:id/cancelar` | RF-06 | administrador, jefe de área |
 
 ## Reglas de negocio validadas al asignar un turno
 

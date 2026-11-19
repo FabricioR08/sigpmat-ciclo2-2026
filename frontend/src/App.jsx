@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './pages/Login';
 import Layout from './components/Layout';
+import Departamentos from './pages/Departamentos';
 
 function RutaProtegida({ children }) {
   const { isAuthenticated } = useAuth();
@@ -51,7 +52,7 @@ export default function App() {
           >
             <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
-            <Route path="departamentos" element={<ModuloPendiente titulo="Departamentos y Especialidades" />} />
+            <Route path="departamentos" element={<Departamentos />} />
             <Route path="empleados" element={<ModuloPendiente titulo="Personal Médico" />} />
             <Route path="disponibilidad" element={<ModuloPendiente titulo="Jornadas y Disponibilidad" />} />
             <Route path="turnos" element={<ModuloPendiente titulo="Programación de Turnos" />} />

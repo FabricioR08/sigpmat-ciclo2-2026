@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { autenticar, requerirRol } = require('../middleware/auth');
 const asignaciones = require('../services/asignaciones.service');
+const asignacionAutomatica = require('../services/asignacionAutomatica.service');
 const auditoria = require('../repositories/auditoria.repository');
 
 router.use(autenticar);
@@ -25,6 +26,42 @@ router.get('/mias', async (req, res, next) => {
     if (!r.ok) return res.status(r.codigo).json({ errores: r.errores });
     return res.json(r.asignaciones);
   } catch (e) { return next(e); }
+});
+
+// S5: POST /api/asignaciones/automatica  { id_turno, estrategia?, aplicar? }
+router.post('/automatica', requerirRol('administrador', 'jefe de área'), async (req, res, next) => {
+  try {
+    const { id_turno: idTurno, estrategia = 'menor_carga', aplicar = false } = req.body || {};
+    if (!Number.isInteger(idTurno) || idTurno <= 0) {
+      return res.status(400).json({ error: 'id_turno debe ser un número entero positivo.' });
+    }
+    if (typeof aplicar !== 'boolean') {
+      return res.status(400).json({ error: 'aplicar debe ser un valor booleano.' });
+    }
+
+    const r = await asignacionAutomatica.ejecutarAsignacionAutomatica({
+      idTurno,
+      estrategia,
+      aplicar,
+    });
+
+    if (!r.ok) {
+      return res.status(r.codigo || 400).json({ errores: r.errores });
+    }
+
+    if (aplicar && r.asignaciones_creadas.length > 0) {
+      for (const creada of r.asignaciones_creadas) {
+        await registrar(req, 'asignacion_automatica', creada.id_asignacion);
+      }
+    }
+
+    return res.status(aplicar && r.asignaciones_creadas.length > 0 ? 201 : 200).json(r);
+  } catch (e) {
+    if (e.statusCode === 400) {
+      return res.status(400).json({ error: e.message });
+    }
+    return next(e);
+  }
 });
 
 // RF-06: POST /api/asignaciones  { id_turno, id_empleado }

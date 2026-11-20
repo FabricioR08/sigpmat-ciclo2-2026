@@ -3,6 +3,8 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './pages/Login';
 import Layout from './components/Layout';
 import Departamentos from './pages/Departamentos';
+import Disponibilidad from './pages/Disponibilidad';
+import NotificacionesAuditoria from './pages/NotificacionesAuditoria';
 
 function RutaProtegida({ children }) {
   const { isAuthenticated } = useAuth();
@@ -54,13 +56,13 @@ export default function App() {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="departamentos" element={<Departamentos />} />
             <Route path="empleados" element={<ModuloPendiente titulo="Personal Médico" />} />
-            <Route path="disponibilidad" element={<ModuloPendiente titulo="Jornadas y Disponibilidad" />} />
+            <Route path="disponibilidad" element={<Disponibilidad />} />
             <Route path="turnos" element={<ModuloPendiente titulo="Programación de Turnos" />} />
             <Route path="historial-turnos" element={<ModuloPendiente titulo="Historial de Turnos" />} />
             <Route path="permisos" element={<ModuloPendiente titulo="Permisos y Vacaciones" />} />
             <Route path="cambios-turno" element={<ModuloPendiente titulo="Cambios de Turno" />} />
             <Route path="reportes" element={<ModuloPendiente titulo="Reportes" />} />
-            <Route path="auditoria" element={<ModuloPendiente titulo="Auditoría" />} />
+            <Route path="auditoria" element={<NotificacionesAuditoria />} />
           </Route>
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>

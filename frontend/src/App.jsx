@@ -4,6 +4,8 @@ import Login from './pages/Login';
 import Layout from './components/Layout';
 import Departamentos from './pages/Departamentos';
 import Disponibilidad from './pages/Disponibilidad';
+import Empleados from './pages/Empleados';
+import HistorialTurnos from './pages/HistorialTurnos';
 import NotificacionesAuditoria from './pages/NotificacionesAuditoria';
 
 function RutaProtegida({ children }) {
@@ -55,10 +57,10 @@ export default function App() {
             <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="departamentos" element={<Departamentos />} />
-            <Route path="empleados" element={<ModuloPendiente titulo="Personal Médico" />} />
+            <Route path="empleados" element={<Empleados />} />
             <Route path="disponibilidad" element={<Disponibilidad />} />
             <Route path="turnos" element={<ModuloPendiente titulo="Programación de Turnos" />} />
-            <Route path="historial-turnos" element={<ModuloPendiente titulo="Historial de Turnos" />} />
+            <Route path="historial-turnos" element={<HistorialTurnos />} />
             <Route path="permisos" element={<ModuloPendiente titulo="Permisos y Vacaciones" />} />
             <Route path="cambios-turno" element={<ModuloPendiente titulo="Cambios de Turno" />} />
             <Route path="reportes" element={<ModuloPendiente titulo="Reportes" />} />
